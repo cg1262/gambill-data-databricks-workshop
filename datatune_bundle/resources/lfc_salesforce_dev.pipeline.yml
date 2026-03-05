@@ -1,0 +1,66 @@
+resources:
+  pipelines:
+    lfc_salesforce:
+      name: lfc_salesforce_${var.env}
+      catalog: bronze_${var.env}
+      channel: CURRENT
+      ingestion_definition:
+        connection_name: gw_salesforce
+        objects:
+          - table:
+              destination_catalog: bronze_${var.env}
+              destination_schema: salesforce_datatune
+              source_schema: objects
+              source_table: Account
+          - table:
+              destination_catalog: bronze_${var.env}
+              destination_schema: salesforce_datatune
+              source_schema: objects
+              source_table: Address
+          - table:
+              destination_catalog: bronze_${var.env}
+              destination_schema: salesforce_datatune
+              source_schema: objects
+              source_table: AgentWork
+          - table:
+              destination_catalog: bronze_${var.env}
+              destination_schema: salesforce_datatune
+              source_schema: objects
+              source_table: Lead
+          - table:
+              destination_catalog: bronze_${var.env}
+              destination_schema: salesforce_datatune
+              source_schema: objects
+              source_table: LeadHistory
+          - table:
+              destination_catalog: bronze_${var.env}
+              destination_schema: salesforce_datatune
+              source_schema: objects
+              source_table: LeadStatus
+          - table:
+              destination_catalog: bronze_${var.env}
+              destination_schema: salesforce_datatune
+              source_schema: objects
+              source_table: Opportunity
+          - table:
+              destination_catalog: bronze_${var.env}
+              destination_schema: salesforce_datatune
+              source_schema: objects
+              source_table: OpportunityFieldHistory
+          - table:
+              destination_catalog: bronze_${var.env}
+              destination_schema: salesforce_datatune
+              source_schema: objects
+              source_table: OpportunityLineItem
+          - table:
+              destination_catalog: bronze_${var.env}
+              destination_schema: salesforce_datatune
+              source_schema: objects
+              source_table: OpportunityStage
+          - table:
+              destination_catalog: bronze_${var.env}
+              destination_schema: salesforce_datatune
+              source_schema: objects
+              source_table: Contact
+        source_type: SALESFORCE
+      schema: salesforce_datatune

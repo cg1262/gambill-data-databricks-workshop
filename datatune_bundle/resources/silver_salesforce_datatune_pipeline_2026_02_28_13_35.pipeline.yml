@@ -1,0 +1,16 @@
+resources:
+  pipelines:
+    silver_salesforce_datatune_pipeline_2026_02_28_13_35:
+      name: Silver Salesforce Datatune Pipeline_${var.env}
+      configuration:
+        "env": ${var.env}
+      libraries:
+        - glob:
+            include: ../src/silver_salesforce_datatune_pipeline_2026_02_28_13_35/transformations/**
+      catalog: silver_${var.env}
+      channel: CURRENT
+      continuous: false
+      photon: true
+      root_path: ../src/silver_salesforce_datatune_pipeline_2026_02_28_13_35
+      schema: sales
+      serverless: true
