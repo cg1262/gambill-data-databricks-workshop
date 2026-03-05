@@ -1,0 +1,75 @@
+from pyspark import pipelines as dp
+env = spark.conf.get("env", "dev")
+@dp.table()
+def silver_account():
+    df = spark.readStream.table(f"bronze_{env}.salesforce_datatune.account")
+    df = df.withColumnRenamed("Id", "account_id")\
+           .withColumnRenamed("IsDeleted", "is_deleted")\
+           .withColumnRenamed("MasterRecordId", "master_record_id")\
+           .withColumnRenamed("Name", "name")\
+           .withColumnRenamed("Type", "type")\
+           .withColumnRenamed("ParentId", "parent_id")\
+           .withColumnRenamed("BillingStreet", "billing_street")\
+           .withColumnRenamed("BillingCity", "billing_city")\
+           .withColumnRenamed("BillingState", "billing_state")\
+           .withColumnRenamed("BillingPostalCode", "billing_postal_code")\
+           .withColumnRenamed("BillingCountry", "billing_country")\
+           .withColumnRenamed("BillingStateCode", "billing_state_code")\
+           .withColumnRenamed("BillingCountryCode", "billing_country_code")\
+           .withColumnRenamed("BillingLatitude", "billing_latitude")\
+           .withColumnRenamed("BillingLongitude", "billing_longitude")\
+           .withColumnRenamed("BillingGeocodeAccuracy", "billing_geocode_accuracy")\
+           .withColumnRenamed("ShippingStreet", "shipping_street")\
+           .withColumnRenamed("ShippingCity", "shipping_city")\
+           .withColumnRenamed("ShippingState", "shipping_state")\
+           .withColumnRenamed("ShippingPostalCode", "shipping_postal_code")\
+           .withColumnRenamed("ShippingCountry", "shipping_country")\
+           .withColumnRenamed("ShippingStateCode", "shipping_state_code")\
+           .withColumnRenamed("ShippingCountryCode", "shipping_country_code")\
+           .withColumnRenamed("ShippingLatitude", "shipping_latitude")\
+           .withColumnRenamed("ShippingLongitude", "shipping_longitude")\
+           .withColumnRenamed("ShippingGeocodeAccuracy", "shipping_geocode_accuracy")\
+           .withColumnRenamed("Phone", "phone")\
+           .withColumnRenamed("Fax", "fax")\
+           .withColumnRenamed("AccountNumber", "account_number")\
+           .withColumnRenamed("Website", "website")\
+           .withColumnRenamed("PhotoUrl", "photo_url")\
+           .withColumnRenamed("Sic", "sic")\
+           .withColumnRenamed("Industry", "industry")\
+           .withColumnRenamed("AnnualRevenue", "annual_revenue")\
+           .withColumnRenamed("NumberOfEmployees", "number_of_employees")\
+           .withColumnRenamed("Ownership", "ownership")\
+           .withColumnRenamed("TickerSymbol", "ticker_symbol")\
+           .withColumnRenamed("Description", "description")\
+           .withColumnRenamed("Rating", "rating")\
+           .withColumnRenamed("Site", "site")\
+           .withColumnRenamed("OwnerId", "owner_id")\
+           .withColumnRenamed("CreatedDate", "created_date")\
+           .withColumnRenamed("CreatedById", "created_by_id")\
+           .withColumnRenamed("LastModifiedDate", "last_modified_date")\
+           .withColumnRenamed("LastModifiedById", "last_modified_by_id")\
+           .withColumnRenamed("SystemModstamp", "system_modstamp")\
+           .withColumnRenamed("LastActivityDate", "last_activity_date")\
+           .withColumnRenamed("LastViewedDate", "last_viewed_date")\
+           .withColumnRenamed("LastReferencedDate", "last_referenced_date")\
+           .withColumnRenamed("Jigsaw", "jigsaw")\
+           .withColumnRenamed("JigsawCompanyId", "jigsaw_company_id")\
+           .withColumnRenamed("CleanStatus", "clean_status")\
+           .withColumnRenamed("AccountSource", "account_source")\
+           .withColumnRenamed("DunsNumber", "duns_number")\
+           .withColumnRenamed("Tradestyle", "tradestyle")\
+           .withColumnRenamed("NaicsCode", "naics_code")\
+           .withColumnRenamed("NaicsDesc", "naics_desc")\
+           .withColumnRenamed("YearStarted", "year_started")\
+           .withColumnRenamed("SicDesc", "sic_desc")\
+           .withColumnRenamed("DandbCompanyId", "dandb_company_id")\
+           .withColumnRenamed("OperatingHoursId", "operating_hours_id")\
+           .withColumnRenamed("CustomerPriority__c", "customer_priority_c")\
+           .withColumnRenamed("SLA__c", "sla_c")\
+           .withColumnRenamed("Active__c", "active_c")\
+           .withColumnRenamed("NumberofLocations__c", "number_of_locations_c")\
+           .withColumnRenamed("UpsellOpportunity__c", "upsell_opportunity_c")\
+           .withColumnRenamed("SLASerialNumber__c", "sla_serial_number_c")\
+           .withColumnRenamed("SLAExpirationDate__c", "sla_expiration_date_c")
+    df = df.dropDuplicates(["account_id"])
+    return df
