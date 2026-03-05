@@ -2,7 +2,7 @@ from pyspark import pipelines as dp
 
 env = spark.conf.get("env", "dev")
 @dp.table()
-@dp.expect_or_drop("amount_valid", "amount IS NOT NULL AND amount > 0")
+@dp.expect("amount_valid", "amount IS NOT NULL AND amount > 0") #vs expect_or_drop
 def silver_opportunity():
     df = spark.readStream.table(f"bronze_{env}.salesforce_datatune.opportunity")
     df = df.withColumnRenamed("Id", "opportunity_id") \
