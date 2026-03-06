@@ -1,18 +1,26 @@
 resources:
   jobs:
     lfc_salesforce_job:
-      name: lfc_salesforce_${var.env} job
-      tasks:
-        - task_key: lfc_salesforce_${var.env}_job
-          pipeline_task:
-            pipeline_id: 1982519d-8c2f-4d51-88ce-699bb00bb0d1
-          run_if: ALL_SUCCESS
-          timeout_seconds: 0
-      email_notifications: {}
-      max_concurrent_runs: 1
+      name: lfc_salesforce_${var.env}_job
       trigger:
         pause_status: UNPAUSED
         periodic:
           interval: 6
           unit: HOURS
-      webhook_notifications: {}
+      tasks:
+        - task_key: lfc_salesforce_dev_job
+          pipeline_task:
+            pipeline_id: 1982519d-8c2f-4d51-88ce-699bb00bb0d1
+            full_refresh: false
+        - task_key: dqx
+          depends_on:
+            - task_key: lfc_salesforce_dev_job
+          notebook_task:
+            notebook_path: /Repos/datatune/gambill-data-databricks-workshop-datatune/DQX_Quarantine_Demo
+            source: WORKSPACE
+          environment_key: dqx_environment
+      environments:
+        - environment_key: dqx_environment
+          spec:
+            environment_version: "4"
+      performance_target: PERFORMANCE_OPTIMIZED
